@@ -1,0 +1,74 @@
+<h1 class="text-center">Cadastro de Fotos</h1>
+
+<div class="container">
+
+    <p *ngIf="mensagem.length" class="alert alert-info  ">{{mensagem}}</p>
+    
+    <h1 class='text-center'>{{foto.titulo}}</h1>
+    <!-- <form #meuForm="ngForm" class="row" (submit)="cadastrar($event)"> -->
+    <!-- fazendo a validação no model -->
+    <form [formGroup]="meuForm" class="row" (submit)="cadastrar($event)">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Título</label>
+                <!-- pode ser feito assim -->
+                <!-- <input (input) = "foto.titulo = $event.target.value" [value]="foto.titulo" class="form-control"  autocomplete="off">     -->
+                    <!-- (input) manda os dados para o model, enquanto [] atualiza a view de acordo com o que está no model -->
+                <!-- ou assim -->
+                <!-- Para utilizar o ngModel, todos os atributos tem que ter um name -->
+                <input
+                    formControlName="titulo"
+                    name="titulo" 
+                    [(ngModel)] = "foto.titulo" 
+                    class="form-control"  
+                    autocomplete="off">
+                <!-- a exibição deste span vai depender do if -->
+                <!-- <span *ngIf="titulo.invalid" class="form-control alert-danger">Título obrigatório.</span> -->
+                <!-- fazendo validação no model -->
+                <div *ngIf="meuForm.controls.titulo.invalid">
+                    <span *ngIf="meuForm.controls.titulo.errors.required" class="form-control alert-danger">
+                        Título obrigatório.</span>
+                    
+                    <span *ngIf="meuForm.controls.titulo.errors.minlength" class="form-control alert-danger">
+                        Título deve ter no mínimo 4 caracteres.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>URL</label>
+                <input
+                    formControlName="url"
+                    name="url"
+                    [(ngModel)] = "foto.url" 
+                    [value]="foto.url" 
+                    class="form-control"  
+                    autocomplete="off">
+                <!-- a exibição deste span vai depender do if -->
+                <!-- A diretiva ngIf cria o elemento no qual foi adicionada se o seu valor for true e o remove quando for false. -->
+                <span *ngIf="meuForm.controls.url.invalid" class="form-control alert-danger">URL obrigatória.</span>
+            </div>
+            <div class="form-group">
+                <label>Descrição</label>
+                <textarea
+                    formControlName="descricao"
+                    name="descricao"
+                    [(ngModel)] = "foto.descricao" 
+                    [value]="foto.descricao" 
+                    class="form-control"  
+                    autocomplete="off">
+                <!-- a exibição deste span vai depender do if -->
+                <span *ngIf="meuForm.controls.descricao.invalid" class="form-control alert-danger">Título obrigatório.</span>
+                </textarea>
+            </div>
+
+            <botao nome="Salvar" estilo="btn-primary" tipo="submit" [desabilitado]="meuForm.invalid"></botao>
+            
+            <!-- <button type="submit" class="btn btn-primary" [disabled]="meuForm.invalid">Salvar</button> -->
+               
+            <a [routerLink]="['']" class="btn btn-primary">Voltar</a>
+            <hr>
+        </div>
+        <div class="col-md-6">
+            <foto [url]='foto.url' [titulo] = 'foto.titulo' ></foto>
+        </div>
+    </form>
+</div>

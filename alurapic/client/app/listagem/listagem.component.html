@@ -1,0 +1,49 @@
+<div class="jumbotron">
+        <h1 class="text-center">Alurapic</h1>
+    </div>
+    
+    <div class="container">
+        <p *ngIf="mensagem.length" class="alert alert-info">{{mensagem}}</p>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form>
+                            <div class="input-group">
+                            <span class="input-group-btn">
+                                <a [routerLink]="['/cadastro']" class="btn btn-primary">
+                                    Nova foto
+                                </a>
+                            </span>
+                            <input #textoProcurado (keyup)="0" class="form-control" placeholder="filtrar pelo título da foto">
+                        </div> 
+                    </form>
+                </div> <!-- fim col-md-12 -->
+            </div> <!-- fim row -->
+            <br>
+
+        <!-- <foto url="img/leao.jpg" titulo="Leão"></foto> -->
+        <!-- <foto url="img/leao-branco.jpg" titulo="Leão Branco"></foto> -->
+        <!-- a variável foto vai representar cada uma das fotos. fotos está declarada em app.component -->
+        <!-- pode ser feito assim: -->
+        <!-- <foto *ngFor="let foto of fotos" [url]="foto.url" [titulo]="foto.titulo"></foto> -->
+        <!-- ou assim -->
+        <div class="row">
+                <!-- | filtroPorTitulo: textoProcurado.value -->
+                <!-- #painel representa o componente painel -->
+            <painel #painel *ngFor="let foto of fotos " titulo="{{foto.titulo}}" class="col-md-2">
+                <a [routerLink]="['./cadastro', foto._id]">
+                    <foto  url="{{foto.url}}" titulo="{[foto.titulo | upercase}}"></foto>
+                </a>
+                <!-- PAra o botao funcionar, é necessário importar seu módulo no app.module.ts -->
+                <!-- Chama o botao do botao.component e passa os dados -->
+                <!-- A acao é um evento personalizado criado no botao.component que pode executar qualquer função -->
+                <botao nome="remover" estilo="btn-danger btn-block" (acao)="remove(foto, painel)" confirmacao="true"></botao>
+                    
+                    <!-- botão com o nosso confirmar. Não está funcionando-->
+                    <!-- <botao nome="Remover" estilo="btn-danger btn-block" (acao)="modal.show()" [confirmacao]="false"></botao> -->
+                    <!-- <modal #modal frase="Tem certeza que deseja remover esta foto?" (confirma)="remove(foto, painel)"></modal> -->
+                    <!-- <button class="btn btn-danger btn-block" (click) = "remove(foto)">Remover</button> -->
+            </painel>
+        </div>
+    
+    </div>
